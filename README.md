@@ -5,6 +5,43 @@
 - [ ] Muti-Scale Training as paper did.
 - [ ] Data augmentation (the more the better?) or use `VOCaug`.
 - [ ] Loss Function debug.
+- [ ] To be state-of-the-art.
+
+# New features
+
+- mAP on VOC2007 test
+
+```bash
+# Please choose a voc model.
+./gen_res.sh trained_models/only_params_trained_yolo_voc.pth
+cd utils/
+./eval_mAP.sh 0.00
+AP for aeroplane = 0.6798
+AP for bicycle = 0.7091
+AP for bird = 0.6259
+AP for boat = 0.4122
+AP for bottle = 0.2936
+AP for bus = 0.6606
+AP for car = 0.7086
+AP for cat = 0.7504
+AP for chair = 0.4005
+AP for cow = 0.6244
+AP for diningtable = 0.6042
+AP for dog = 0.6797
+AP for horse = 0.6767
+AP for motorbike = 0.7119
+AP for person = 0.6730
+AP for pottedplant = 0.3008
+AP for sheep = 0.6167
+AP for sofa = 0.5366
+AP for train = 0.7457
+AP for tvmonitor = 0.6315
+# Mean AP = 0.6021
+```
+
+- Training on voc07+12
+
+
 
 ## Introduction
 

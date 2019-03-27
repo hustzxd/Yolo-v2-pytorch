@@ -122,3 +122,8 @@ checkpoint/
 *.json
 *.pt
 .DS_Store
+results/
+trained_models/
+tensorboard/
+VOC2012_val/
+mAP_output/

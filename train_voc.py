@@ -16,7 +16,7 @@ import shutil
 def get_args():
     parser = argparse.ArgumentParser("You Only Look Once: Unified, Real-Time Object Detection")
     parser.add_argument("--image_size", type=int, default=448, help="The common width and height for all images")
-    parser.add_argument("--batch_size", type=int, default=10, help="The number of images per batch")
+    parser.add_argument("--batch_size", type=int, default=32, help="The number of images per batch")
     parser.add_argument("--momentum", type=float, default=0.9)
     parser.add_argument("--decay", type=float, default=0.0005)
     parser.add_argument("--dropout", type=float, default=0.5)
@@ -30,17 +30,23 @@ def get_args():
     parser.add_argument("--es_min_delta", type=float, default=0.0,
                         help="Early stopping's parameter: minimum change loss to qualify as an improvement")
     parser.add_argument("--es_patience", type=int, default=0,
-                        help="Early stopping's parameter: number of epochs with no improvement after which training will be stopped. Set to 0 to disable this technique.")
-    parser.add_argument("--train_set", type=str, default="train",
-                        help="For both VOC2007 and 2012, you could choose 3 different datasets: train, trainval and val. Additionally, for VOC2007, you could also pick the dataset name test")
+                        help="Early stopping's parameter: number of epochs with no improvement "
+                             "after which training will be stopped. Set to 0 to disable this technique.")
+    parser.add_argument("--train_set", type=str, default="trainval",
+                        help="For both VOC2007 and 2012, you could choose 3 different datasets: "
+                             "train, trainval and val. Additionally, for VOC2007, "
+                             "you could also pick the dataset name test")
     parser.add_argument("--test_set", type=str, default="val",
-                        help="For both VOC2007 and 2012, you could choose 3 different datasets: train, trainval and val. Additionally, for VOC2007, you could also pick the dataset name test")
-    parser.add_argument("--year", type=str, default="2012", help="The year of dataset (2007 or 2012)")
+                        help="For both VOC2007 and 2012, you could choose 3 different datasets: "
+                             "train, trainval and val. Additionally, for VOC2007, "
+                             "you could also pick the dataset name test")
+    parser.add_argument("--year", type=str, default="0712", help="The year of dataset (2007 or 2012)")
     parser.add_argument("--data_path", type=str, default="data/VOCdevkit", help="the root folder of dataset")
-    parser.add_argument("--pre_trained_model_type", type=str, choices=["model", "params"], default="model")
-    parser.add_argument("--pre_trained_model_path", type=str, default="trained_models/whole_model_trained_yolo_voc")
+    parser.add_argument("--pre_trained_model_type", type=str, choices=["model", "params"], default="params")
+    parser.add_argument("--pre_trained_model_path", type=str, default="trained_models/only_params_trained_yolo_voc.pth")
     parser.add_argument("--log_path", type=str, default="tensorboard/yolo_voc")
     parser.add_argument("--saved_path", type=str, default="trained_models")
+    parser.add_argument("-j", "--workers", default=10, type=int)
 
     args = parser.parse_args()
     return args
@@ -56,12 +62,14 @@ def train(opt):
     training_params = {"batch_size": opt.batch_size,
                        "shuffle": True,
                        "drop_last": True,
-                       "collate_fn": custom_collate_fn}
+                       "collate_fn": custom_collate_fn,
+                       "num_workers": opt.workers}
 
     test_params = {"batch_size": opt.batch_size,
                    "shuffle": False,
                    "drop_last": False,
-                   "collate_fn": custom_collate_fn}
+                   "collate_fn": custom_collate_fn,
+                   "num_workers": opt.workers}
 
     training_set = VOCDataset(opt.data_path, opt.year, opt.train_set, opt.image_size)
     training_generator = DataLoader(training_set, **training_params)
@@ -169,8 +177,9 @@ def train(opt):
                 best_loss = te_loss
                 best_epoch = epoch
                 # torch.save(model, opt.saved_path + os.sep + "trained_yolo_voc")
-                torch.save(model.state_dict(), opt.saved_path + os.sep + "only_params_trained_yolo_voc")
-                torch.save(model, opt.saved_path + os.sep + "whole_model_trained_yolo_voc")
+                torch.save(model.state_dict(),
+                           opt.saved_path + os.sep + "only_params_trained_yolo_voc_{}".format(epoch))
+                torch.save(model, opt.saved_path + os.sep + "whole_model_trained_yolo_voc_{}".format(epoch))
 
             # Early stopping
             if epoch - best_epoch > opt.es_patience > 0:

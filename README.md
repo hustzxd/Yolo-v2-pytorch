@@ -1,5 +1,11 @@
 # [PYTORCH] YOLO (You Only Look Once)
 
+# TODO
+- [ ] Darknet-19 Training or Finetuning from darknet framework.
+- [ ] Muti-Scale Training as paper did.
+- [ ] Data augmentation (the more the better?) or use `VOCaug`.
+- [ ] Loss Function debug.
+
 ## Introduction
 
 Here is my pytorch implementation of the model described in the paper **YOLO9000: Better, Faster, Stronger** [paper](https://arxiv.org/abs/1612.08242). 

@@ -1,5 +1,7 @@
 # [PYTORCH] YOLO (You Only Look Once)
 
+[![Build Status](https://travis-ci.com/hustzxd/Yolo-v2-pytorch.svg?branch=master)](https://travis-ci.com/hustzxd/Yolo-v2-pytorch)
+
 # TODO
 - [ ] Darknet-19 Training or Finetuning from darknet framework.
 - [ ] Muti-Scale Training as paper did.

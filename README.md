@@ -7,6 +7,12 @@
 - [ ] Loss Function debug.
 - [ ] To be state-of-the-art.
 
+| Train Datasets | Test Datasets | Model                 | mAP   | batch size |
+|----------------|---------------|-----------------------|-------|------------|
+| VOC07+12       | VOC07 test    | YOLOv2(416x416) paper | 76.8  |            |
+| VOC2012        | VOC07 test    | This(448x448)         | 60.21 |            |
+| VOC0712        | VOC07 test    | This(448x448)         | 66.77 | 32         |
+
 # New features
 
 - Trained Models(Keep updating)

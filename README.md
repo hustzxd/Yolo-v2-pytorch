@@ -5,6 +5,7 @@
 - [ ] Muti-Scale Training as paper did.
 - [ ] Data augmentation (the more the better?) or use `VOCaug`.
 - [ ] Loss Function debug.
+- [ ] Focal loss.
 - [ ] To be state-of-the-art.
 
 | Train Datasets | Test Datasets | Model                 | mAP   | batch size |
